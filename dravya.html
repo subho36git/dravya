@@ -1,0 +1,424 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Dravya</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500&family=Jost:wght@300;400;500&display=swap');
+
+:root{
+  --ivory:#FFFBF6;
+  --blush:#F7DCE3;
+  --rose:#C97A8C;
+  --deep-rose:#7E3B4E;
+  --gold:#C9A24B;
+  --gold-light:#E8CE94;
+  --ink:#4A2A34;
+}
+
+*{margin:0;padding:0;box-sizing:border-box;}
+
+html{scroll-behavior:smooth;}
+
+body{
+  font-family:'Jost',sans-serif;
+  background:
+    radial-gradient(circle at 15% 10%, var(--blush) 0%, transparent 45%),
+    radial-gradient(circle at 85% 90%, var(--gold-light) 0%, transparent 40%),
+    var(--ivory);
+  color:var(--ink);
+  min-height:100vh;
+  overflow-x:hidden;
+}
+
+/* floating petals */
+.petal{
+  position:fixed;
+  top:-40px;
+  pointer-events:none;
+  opacity:0.55;
+  z-index:0;
+  animation:fall linear infinite;
+}
+@keyframes fall{
+  to{ transform:translateY(110vh) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce){
+  .petal{ animation:none; display:none; }
+  html{ scroll-behavior:auto; }
+}
+
+.wrap{
+  position:relative;
+  z-index:1;
+  max-width:920px;
+  margin:0 auto;
+  padding:64px 24px 100px;
+}
+
+/* HERO */
+.hero{
+  text-align:center;
+  padding:40px 0 60px;
+}
+.eyebrow{
+  font-family:'Jost',sans-serif;
+  letter-spacing:0.35em;
+  text-transform:uppercase;
+  font-size:12px;
+  color:var(--rose);
+  margin-bottom:18px;
+}
+.hero h1{
+  font-family:'Cormorant Garamond',serif;
+  font-weight:500;
+  font-size:clamp(40px,7vw,72px);
+  color:var(--deep-rose);
+  line-height:1.05;
+}
+.hero h1 em{
+  font-style:italic;
+  color:var(--gold);
+}
+.hero p{
+  margin-top:20px;
+  font-size:16px;
+  color:var(--ink);
+  opacity:0.75;
+  max-width:480px;
+  margin-left:auto;
+  margin-right:auto;
+  line-height:1.6;
+}
+
+/* signature: a wax seal divider */
+.seal-divider{
+  display:flex;
+  align-items:center;
+  gap:16px;
+  justify-content:center;
+  margin:44px 0 0;
+}
+.seal-divider .line{
+  height:1px;
+  width:80px;
+  background:linear-gradient(90deg, transparent, var(--gold), transparent);
+}
+.seal{
+  width:34px;height:34px;border-radius:50%;
+  background:radial-gradient(circle at 35% 30%, var(--gold-light), var(--gold) 60%, #a9832f 100%);
+  box-shadow:0 2px 6px rgba(201,162,75,0.5);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;
+  font-size:15px;color:var(--ivory);
+  font-weight:600;
+}
+
+/* NAV - three envelope tabs */
+.nav-envelopes{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+  margin:56px 0 8px;
+}
+
+.env-tab{
+  position:relative;
+  cursor:pointer;
+  background:var(--ivory);
+  border:1px solid var(--gold-light);
+  border-radius:14px;
+  padding:22px 26px;
+  width:230px;
+  text-align:left;
+  transition:transform 0.35s ease, box-shadow 0.35s ease, border-color 0.35s ease;
+  box-shadow:0 4px 18px rgba(126,59,78,0.06);
+}
+.env-tab:hover{
+  transform:translateY(-6px);
+  box-shadow:0 14px 30px rgba(201,122,140,0.22);
+  border-color:var(--rose);
+}
+.env-tab:focus-visible{
+  outline:2px solid var(--rose);
+  outline-offset:3px;
+}
+.env-tab.active{
+  border-color:var(--gold);
+  background:linear-gradient(160deg, var(--blush), var(--ivory));
+  box-shadow:0 10px 26px rgba(201,122,140,0.25);
+}
+.env-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:13px;
+  letter-spacing:0.2em;
+  color:var(--gold);
+  text-transform:uppercase;
+}
+.env-title{
+  font-family:'Cormorant Garamond',serif;
+  font-size:24px;
+  font-weight:500;
+  color:var(--deep-rose);
+  margin-top:6px;
+}
+.env-sub{
+  font-size:13px;
+  color:var(--ink);
+  opacity:0.6;
+  margin-top:4px;
+}
+
+/* PAGES / LETTERS */
+.letters{
+  margin-top:56px;
+}
+.letter{
+  display:none;
+  animation:unfold 0.6s ease forwards;
+  background:var(--ivory);
+  border:1px solid var(--gold-light);
+  border-radius:18px;
+  padding:56px 48px;
+  position:relative;
+  box-shadow:0 20px 50px rgba(126,59,78,0.10);
+}
+.letter.show{ display:block; }
+
+@keyframes unfold{
+  from{ opacity:0; transform:translateY(18px) scale(0.98); }
+  to{ opacity:1; transform:translateY(0) scale(1); }
+}
+
+.letter::before{
+  content:"";
+  position:absolute;
+  top:-1px;left:-1px;right:-1px;
+  height:6px;
+  border-radius:18px 18px 0 0;
+  background:linear-gradient(90deg, var(--rose), var(--gold), var(--rose));
+}
+
+.letter-heading{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(28px,4vw,40px);
+  font-style:italic;
+  color:var(--deep-rose);
+  margin-bottom:28px;
+  text-align:center;
+}
+
+.letter-body p{
+  font-size:17px;
+  line-height:1.85;
+  color:var(--ink);
+  margin-bottom:20px;
+}
+.letter-body p:last-of-type{ margin-bottom:0; }
+
+.signoff{
+  margin-top:34px;
+  text-align:right;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:20px;
+  color:var(--rose);
+}
+.signoff span{
+  display:block;
+  font-family:'Cormorant Garamond',serif;
+  font-style:italic;
+  font-size:26px;
+  color:var(--gold);
+  margin-top:4px;
+}
+
+/* small gold flourish */
+.flourish{
+  text-align:center;
+  color:var(--gold);
+  font-size:20px;
+  margin:8px 0 26px;
+  letter-spacing:0.3em;
+}
+
+/* nav dots between letters */
+.letter-nav{
+  display:flex;
+  justify-content:center;
+  gap:14px;
+  margin-top:36px;
+}
+.letter-nav button{
+  background:none;
+  border:1.5px solid var(--gold);
+  color:var(--deep-rose);
+  font-family:'Jost',sans-serif;
+  font-size:13px;
+  letter-spacing:0.08em;
+  padding:9px 18px;
+  border-radius:999px;
+  cursor:pointer;
+  transition:background 0.3s ease, color 0.3s ease;
+}
+.letter-nav button:hover{
+  background:var(--gold);
+  color:var(--ivory);
+}
+
+footer{
+  text-align:center;
+  margin-top:70px;
+  font-size:13px;
+  color:var(--rose);
+  opacity:0.7;
+  letter-spacing:0.05em;
+}
+
+@media (max-width:600px){
+  .letter{ padding:40px 26px; }
+  .env-tab{ width:100%; }
+  .nav-envelopes{ flex-direction:column; align-items:center; }
+}
+</style>
+</head>
+<body>
+
+<div class="wrap">
+
+  <div class="hero">
+    <div class="eyebrow">for my cutupie, from your kuchupuchu</div>
+    <h1>Everything I didn't <em>say</em> at the right time</h1>
+    <p>Three letters from my heart.</p>
+    <p>Ye lo flying kissi</p>
+    <div class="seal-divider">
+      <div class="line"></div>
+      <div class="seal">😘</div>
+      <div class="line"></div>
+    </div>
+  </div>
+
+  <nav class="nav-envelopes" role="tablist" aria-label="Letters to Dravya">
+    <div class="env-tab active" data-target="love" role="tab" tabindex="0" aria-selected="true">
+      <div class="env-num">Letter One</div>
+      <div class="env-title">How Much I Love You Meri Jaan</div>
+      <div class="env-sub">open when you need reassurance</div>
+    </div>
+    <div class="env-tab" data-target="sorry" role="tab" tabindex="0" aria-selected="false">
+      <div class="env-num">Letter Two</div>
+      <div class="env-title">Im So Sorry</div>
+      <div class="env-sub">open when you're still hurting</div>
+    </div>
+    <div class="env-tab" data-target="promise" role="tab" tabindex="0" aria-selected="false">
+      <div class="env-num">Letter Three</div>
+      <div class="env-title">My Promise</div>
+      <div class="env-sub">open when you're ready to believe me</div>
+    </div>
+  </nav>
+
+  <div class="letters">
+
+    <article class="letter show" id="love">
+      <div class="flourish">✦ ✦ ✦</div>
+      <h2 class="letter-heading">How much i love you</h2>
+      <div class="letter-body">
+        <p>Jaan you entered my life when i was least expecting of love. the first day i met you 23.01.26 and the next day when we hung out near the grand entrance and you tricked me into getting you a flower, i felt something different something special something natural. the very day you started to claim me in front of others 24.01.26.</p>
+        <p>you so naturally became a part of my life so much that now its impossible for me to think a life without you. youre the most special gift i ever got the most beautiful one and the most cutest.</p>
+        <p>how quickly time went by and we turned from complete strangers who had never even seen each other in the campus to being the special ones without whom the campus now feels incomplete.</p>
+        <p>18.02.26 2 days before your birthday when i posted you on my main and declared to everyone the start of our beautiful relationship. I can only imagine the number of heartbroken boys that day😭. ngas so jealous hahaha.</p>
+        <p>since then, everyday with you has been special every moment that i spent with you, even the most ordinary days when we would just be sitting and enjoying each others company.
+        its been such an exciting journey.</p>
+      </div>
+      <div class="signoff">yours since 24.01.26<span>-your joru ka gulam</span></div>
+    </article>
+
+    <article class="letter" id="sorry">
+      <div class="flourish">✦ ✦ ✦</div>
+      <h2 class="letter-heading">I apologise, im really really really sorry</h2>
+      <div class="letter-body">
+        <p>I hurt you. I was mean when I couldve been kind. I shouldve controlled my emotions and convey it to you with calmness, i was frustrated when i shouldve been patient</p>
+        <p>You didn't deserve that, not from me not from your safe place. I broke your heart.</p>
+        <p>The thing i regret the most is letting you cry, thats the one thing i cant see but i let it happen i let you cry.</p>
+        <p>I'm not asking you to forget it. I'm just asking you to know that I see it clearly, I regret it fully, and I'm not interested in becoming someone who makes you feel small. You mean too much to me to treat carelessly.</p>
+        <p>I am sorry for my words and my tone</p>
+        <p>I ask for forgiveness from MY dravya.</p>
+      </div>
+      <div class="signoff">With all my regrets,<span>-your Shubho</span></div>
+    </article>
+
+    <article class="letter" id="promise">
+      <div class="flourish">✦ ✦ ✦</div>
+      <h2 class="letter-heading">My promise to you</h2>
+      <div class="letter-body">
+        <p>Words are easy to say, actions are what matter. today i promise you that never again in this life will i ever be mean to you, even if i lose my patience i lose my mind, in the rare scenario that it happens, ill just go silent.</p>
+        <p>i wont let you go through this emotion of your bf being rude and mean to you.
+        its my word its my promise that this wont ever happen again.</p>
+        <p>I have had one of the most special memories of my life with you and only wish to make you a part of all the things to come. ily Dravya Jain😘</p>
+        <p>🤵💍👰?</p>
+        <p>🥰😘😘🥰🥰😍😍🥳🥳🥵😻😻🤗</p>
+      </div>
+      <div class="signoff">is, was and always yours<span>-kuchupuchu</span></div>
+    </article>
+
+  </div>
+
+  <div class="letter-nav">
+    <button data-target="love">Letter One</button>
+    <button data-target="sorry">Letter Two</button>
+    <button data-target="promise">Letter Three</button>
+  </div>
+
+  <footer>made with love and love only 🤰🙋‍♂️->👶🍼 soon?</footer>
+
+</div>
+
+<script>
+// petals
+const colors = ['#F7DCE3','#C9A24B','#E8CE94','#C97A8C'];
+for(let i=0;i<18;i++){
+  const p=document.createElement('div');
+  p.className='petal';
+  const size=6+Math.random()*8;
+  p.style.width=size+'px';
+  p.style.height=size+'px';
+  p.style.left=Math.random()*100+'vw';
+  p.style.background=colors[Math.floor(Math.random()*colors.length)];
+  p.style.borderRadius='50% 0 50% 50%';
+  p.style.animationDuration=(12+Math.random()*10)+'s';
+  p.style.animationDelay=(Math.random()*10)+'s';
+  document.body.appendChild(p);
+}
+
+const tabs = document.querySelectorAll('.env-tab');
+const navBtns = document.querySelectorAll('.letter-nav button');
+const letters = document.querySelectorAll('.letter');
+
+function showLetter(target){
+  letters.forEach(l => l.classList.toggle('show', l.id === target));
+  tabs.forEach(t => {
+    const active = t.dataset.target === target;
+    t.classList.toggle('active', active);
+    t.setAttribute('aria-selected', active);
+  });
+}
+
+tabs.forEach(tab=>{
+  tab.addEventListener('click', ()=> showLetter(tab.dataset.target));
+  tab.addEventListener('keydown', (e)=>{
+    if(e.key==='Enter' || e.key===' '){ e.preventDefault(); showLetter(tab.dataset.target); }
+  });
+});
+
+navBtns.forEach(btn=>{
+  btn.addEventListener('click', ()=> {
+    showLetter(btn.dataset.target);
+    document.querySelector('.nav-envelopes').scrollIntoView({behavior:'smooth', block:'start'});
+  });
+});
+</script>
+
+</body>
+</html>
